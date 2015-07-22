@@ -54,6 +54,7 @@ def dump_in_database( conn,serv,ip,relate_man, mail,phone,region):
 				%(ip,relate_man, str(serv.port),serv.service,mail,phone,region,serv.state,serv.banner) 
 	print sql
 	cur.execute(sql)
+	conn.commit()
 
 # print scan results from a nmap report 
 def print_scan(conn,nmap_report,relate_man,mail,phone,region): 

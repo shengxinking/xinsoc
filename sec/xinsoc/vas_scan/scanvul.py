@@ -60,6 +60,8 @@ def run(manager,ip):
     Sem.acquire()
     print "scan id %s" %(scan_id)
     report_id=manager.get_report_id(scan_id)
+    conn_sqlite = conn_sqlite3(PATH)
+    dump_vul_data(report_id,conn_sqlite, conn_mysql)
     print "scan finished ok: repot id (%s)" %(report_id)
  #   write_report(manager,report_id,ip)
  #   manager.delete_scan(scan_id)
@@ -118,18 +120,10 @@ if __name__ == '__main__':
 		conn_mysql = MySQLdb.connect(host=HOST, user=USER, passwd=PASSWORD, db=DBNAME,port=PORT)
 	except MySQLdb.Error,e:
 		print "Mysql Error %d: %s" % (e.args[0], e.args[1]) 
-	conn_sqlite = conn_sqlite3(PATH)
-	dump_vul_data('3d94678c-d052-4a85-92f4-8c9f21a3195c',conn_sqlite, conn_mysql)
-'''
-	try:
-		conn = MySQLdb.connect(host=HOST, user=USER, passwd=PASSWORD, db=DBNAME,port=PORT)
-	except MySQLdb.Error,e:
-		print "Mysql Error %d: %s" % (e.args[0], e.args[1]) 
 	try:
         #manager= VulnscanManager(openvas_ip,admin_name,admin_password)
 		manager= VulnscanManager("127.0.0.1","admin","123456",9390,10)
-		get_all_ip_port(conn, manager)
+		get_all_ip_port(conn_mysql, manager)
         #run(manager,"127.0.0.1")
 	except Exception,e:
 		print e
-'''
